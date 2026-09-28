@@ -116,7 +116,7 @@ class LightSdkPlugin : Plugin<Project> {
             Regex("""\bcreateAttributionContext\s*\(""") to "createAttributionContext() is not allowed",
             Regex("""\bcreateWindowContext\s*\(""") to "createWindowContext() is not allowed",
             Regex("""\bcreateDisplayContext\s*\(""") to "createDisplayContext() is not allowed",
-            Regex("""\b\.javaClass\b""") to "Reflection is not allowed",
+            Regex("""\bjavaClass\b""") to "Reflection is not allowed",
             Regex("""\b\.java\s*\.\s*\w""") to "Reflection is not allowed",
             Regex("""\bClass\s*\.\s*forName\s*\(""") to "Reflection is not allowed",
             Regex("""\b\.getDeclaredMethod\s*\(""") to "Reflection is not allowed",

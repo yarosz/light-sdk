@@ -133,6 +133,31 @@ class LightSdkPluginValidationTest {
     // ---------------------------------------------------------------------
 
     @Test
+    fun `javaClass on a receiver is blocked`() {
+        val v = LightSdkPlugin.findSourceLineViolations("val c = obj.javaClass")
+        assertTrue(v.any { "Reflection" in it }, "got $v")
+    }
+
+    @Test
+    fun `bare javaClass is blocked`() {
+        // implicit `this` inside a class body, no receiver or dot
+        val v = LightSdkPlugin.findSourceLineViolations("val k = javaClass")
+        assertTrue(v.any { "Reflection" in it }, "got $v")
+    }
+
+    @Test
+    fun `javaClass on a call result is blocked`() {
+        val v = LightSdkPlugin.findSourceLineViolations("val c = foo().javaClass")
+        assertTrue(v.any { "Reflection" in it }, "got $v")
+    }
+
+    @Test
+    fun `identifiers containing javaClass are allowed`() {
+        val v = LightSdkPlugin.findSourceLineViolations("val javaClassName = myjavaClass")
+        assertTrue(v.isEmpty(), "got $v")
+    }
+
+    @Test
     fun `MethodHandles is blocked`() {
         val v = LightSdkPlugin.findSourceLineViolations(
             "val l = java.lang.invoke.MethodHandles.lookup()"
